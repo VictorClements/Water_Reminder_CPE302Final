@@ -2,25 +2,25 @@ module priorityDecoder(input  logic [15:0] in,
                        output logic [3:0]  out);
   always_comb
     casez(in)
-      16'b1???????????????: out = 4'b1111;
-      16'b01??????????????: out = 4'b1110;
-      16'b001?????????????: out = 4'b1101;
-      16'b0001????????????: out = 4'b1100;
+      16'b1???????????????: out = 4'b0000;
+      16'b01??????????????: out = 4'b0001;
+      16'b001?????????????: out = 4'b0010;
+      16'b0001????????????: out = 4'b0011;
       
-      16'b00001???????????: out = 4'b1011;
-      16'b000001??????????: out = 4'b1010;
-      16'b0000001?????????: out = 4'b1001;
-      16'b00000001????????: out = 4'b1000;
+      16'b00001???????????: out = 4'b0100;
+      16'b000001??????????: out = 4'b0101;
+      16'b0000001?????????: out = 4'b0110;
+      16'b00000001????????: out = 4'b0111;
       
-      16'b000000001???????: out = 4'b0111;
-      16'b0000000001??????: out = 4'b0110;
-      16'b00000000001?????: out = 4'b0101;
-      16'b000000000001????: out = 4'b0100;
+      16'b000000001???????: out = 4'b1000;
+      16'b0000000001??????: out = 4'b1001;
+      16'b00000000001?????: out = 4'b1010;
+      16'b000000000001????: out = 4'b1011;
       
-      16'b0000000000001???: out = 4'b0011;
-      16'b00000000000001??: out = 4'b0010;
-      16'b000000000000001?: out = 4'b0001;
-      16'b0000000000000000: out = 4'b0000;
+      16'b0000000000001???: out = 4'b1100;
+      16'b00000000000001??: out = 4'b1101;
+      16'b000000000000001?: out = 4'b1110;
+      16'b0000000000000000: out = 4'b1111;
 
       default:              out = 4'b0000;
     endcase
@@ -39,10 +39,36 @@ logic reminder;
 
   always_comb
     case(waterLevel)
-      4'b0000:  reminder = 1'b1;
-      4'b0001:  if((hMSD == 4'd2) & (hLSD >= 4'd2)) reminder = 1'b1;
+      4'b0000:  reminder = 1'b0;
+      4'b0001:  if((hMSD == 4'd2) & (hLSD >= 4'd2))                     reminder = 1'b1;
                 else  reminder = 1'b0;
-      4'b0010:  if((hMSD == 4'd2) & (hLSD >= 4'd1)) reminder = 1'b1;
+      4'b0010:  if((hMSD == 4'd2) & (hLSD >= 4'd1))                     reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0011:  if(hMSD == 4'd2)                                        reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0100:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD == 4'd9))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0101:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd8))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0110:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd7))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0111:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd6))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1000:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd5))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1001:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd4))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1010:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd3))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1011:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd2))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1100:  if( (hMSD == 4'd2) | ((hMSD == 4'd1) & (hLSD >= 4'd1))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1101:  if(hMSD >= 4'd1)                                        reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1110:  if( (hMSD >= 4'd1) | ((hMSD == 4'd0) & (hLSD == 4'd9))) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b1111:  if( (hMSD >= 4'd1) | ((hMSD == 4'd0) & (hLSD >= 4'd8))) reminder = 1'b1;
                 else  reminder = 1'b0;
     endcase
 
