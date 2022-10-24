@@ -1,3 +1,53 @@
+module priorityDecoder(input  logic [15:0] in,
+                       output logic [3:0]  out);
+  always_comb
+    casez(in)
+      16'b1???????????????: out = 4'b1111;
+      16'b01??????????????: out = 4'b1110;
+      16'b001?????????????: out = 4'b1101;
+      16'b0001????????????: out = 4'b1100;
+      
+      16'b00001???????????: out = 4'b1011;
+      16'b000001??????????: out = 4'b1010;
+      16'b0000001?????????: out = 4'b1001;
+      16'b00000001????????: out = 4'b1000;
+      
+      16'b000000001???????: out = 4'b0111;
+      16'b0000000001??????: out = 4'b0110;
+      16'b00000000001?????: out = 4'b0101;
+      16'b000000000001????: out = 4'b0100;
+      
+      16'b0000000000001???: out = 4'b0011;
+      16'b00000000000001??: out = 4'b0010;
+      16'b000000000000001?: out = 4'b0001;
+      16'b0000000000000000: out = 4'b0000;
+
+      default:              out = 4'b0000;
+    endcase
+endmodule
+
+module reminder(input  logic       clk, reset,
+                input  logic [3:0] waterLevel,
+                input  logic [3:0] hMSD, hLSD, mMSD, mLSD, sMSD, sLSD
+                output logic       remind);
+
+logic reminder;
+
+  always_ff @(posedge clk, posedge reset)
+    if(reset) remind <= 1'b0;
+    else      remind <= reminder
+
+  always_comb
+    case(waterLevel)
+      4'b0000:  reminder = 1'b1;
+      4'b0001:  if((hMSD == 4'd2) & (hLSD >= 4'd2)) reminder = 1'b1;
+                else  reminder = 1'b0;
+      4'b0010:  if((hMSD == 4'd2) & (hLSD >= 4'd1)) reminder = 1'b1;
+                else  reminder = 1'b0;
+    endcase
+
+endmodule
+
 module sevenseg(input  logic [3:0] data,
                 output logic [6:0] segments);
 
@@ -112,7 +162,7 @@ module timer (input  logic       clk, reset,
   //instantiate the bcd counters for minutes
   bcdCounter #(4'd9) minutesLSD (systemClk, reset, 1'b1, carryOut1, 1'b0,       count2, carryOut2, junk2);
   bcdCounter #(4'd5) minutesMSD (systemClk, reset, 1'b1, carryOut2, 1'b0,       count3, carryOut3, junk3);
-  //instantiate the bcd counters for hours
+  //instantiate the bcd counters for minutes
   bcdCounter #(4'd9) hoursLSD   (systemClk, reset, 1'b1, carryOut3, hourIs2XIn, count4, carryOut4, junk4);
   bcdCounter #(4'd2) hoursMSD   (systemClk, reset, 1'b1, carryOut4, 1'b0,       count5, carryOut5, hourIs2XIn);
 
