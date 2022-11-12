@@ -1,12 +1,13 @@
-module bcdCounterTestbench();
+module timerTestbench();
   logic        clk, reset;
-  logic [3:0]  count0, count1, count2, count3, count4, count5;
-  logic [2:0]  selectLine;
-  logic        carryOut0, carryOut1, carryOut2, carryOut3, carryOut4, carryOut5;
-  logic        hourIs2XIn;
+  logic [3:0]  water_level;
+  logic [1:0]  selectLine;
+  logic        remind;
+  logic [6:0]  display0, display1, display2, display3, display4, display5;
 
   // instantiate device under test
-  timer dut(clk, reset, selectLine, count0, count1, count2, count3, count4, count5, hourIs2XIn);
+  timer dut(clk, reset, water_level, selectLine, remind, 
+            display0, display1, display2, display3, display4, display5);
 
   // generate clock
   always 
@@ -18,6 +19,7 @@ module bcdCounterTestbench();
   // and pulse reset
   initial
     begin
-      reset = 1; #15; reset = 0;
+      reset = 1; water_level = 4'b1000; selectLine = 2'b11;
+      #15; reset = 0;
     end
 endmodule

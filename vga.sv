@@ -1,5 +1,3 @@
-// vga.sv
-
 module vga(input  logic clk, reset, 
            input  logic [3:0] water_level,
            input  logic [1:0] selectLine,
@@ -7,12 +5,14 @@ module vga(input  logic clk, reset,
            output logic hsync, vsync, 
            output logic sync_b, blank_b, // to monitor & DAC 
            output logic [7:0] r, g, b,
-           output logic [6:0] display0, display1, display2, display3, display4, display5);  // to video DAC 
+           output logic [6:0] display0, display1, display2, display3,
+           output logic [6:0] display4, display5);  // to video DAC 
            
   logic remainder;
   logic [9:0] x, y; 
 
-  timer timer1(clk, reset, water_level, selectLine, remainder, display0, display1, display2, display3, display4, display5);
+  timer timer1(clk, reset, water_level, selectLine, remainder, display0,
+               display1, display2, display3, display4, display5);
 
   // Use a clock divider to create the 25 MHz VGA pixel clock 
   // 25 MHz clk period = 40 ns 

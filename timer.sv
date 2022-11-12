@@ -16,13 +16,13 @@ module timer (input  logic       clk, reset,
   logic       systemClk;  //the clock signal actively being used for the system
 
   always_comb
-    // essentially a 4-to-1 mux that decides which clock to use for the system based on the select line
-    // the first three clocks are actual clocks, and the last is essentially a pause button incase we 
-    // might need that
+    // 3-to-1 mux that decides which clock to use for the system based on the select line
+    // mainly for demo and debugging for hardware
     case(selectLine)
       2'b00:    systemClk = slowClk0;
       2'b01:    systemClk = slowClk1;
-      default:    systemClk = slowClk2;
+      //default:  systemClk = slowClk2;
+      default:  systemClk = clk;  //FOR SIMULATION ONLY!
     endcase
 
   //clocks for different desired speeds
