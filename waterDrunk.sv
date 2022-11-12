@@ -1,7 +1,7 @@
 module waterDrunk
        #(parameter width = 6)
         (input  logic       clk, reset,
-         input  logic [3:0] water_level
+         input  logic [3:0] water_level,
          output logic [width-1:0] water_drunk);
 
 //internal signals
