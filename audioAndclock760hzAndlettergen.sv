@@ -27,7 +27,7 @@ module letterGen(input  logic [9:0] x, y,   //current x and y position
 
   assign inrect = (x >= left & x < right & y >= top & y < bot); //same as rectgen, checks
 
-  initial $readmemb("NumberROM.txt", charrom);
+  initial $readmemb("characterROM.txt", charrom);
 
   assign line = charrom[letterSelect*20 + (y-top)];
 
