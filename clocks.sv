@@ -39,3 +39,15 @@ module clock3600Hz
 assign slowClk = count[39];
 
 endmodule
+
+module Clock760Hz(input  logic clk, reset,
+                  output logic slowClk);
+  logic [15:0] count;
+
+  always_ff@(posedge clk, posedge reset)
+    if(reset)   count <= 15'b0;
+    else        count <= count + 1;
+
+  assign slowClk = count[15];
+  
+endmodule
