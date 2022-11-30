@@ -1,6 +1,5 @@
 module LUT(input  logic [5:0] binaryNum,
            output logic [7:0] decimalNum);
-
   always_comb
     case(binaryNum)
            6'd0:  decimalNum = {4'd0, 4'd0};
@@ -66,10 +65,6 @@ module LUT(input  logic [5:0] binaryNum,
            6'd60: decimalNum = {4'd6,4'd0};
            6'd61: decimalNum = {4'd6,4'd1};
            6'd62: decimalNum = {4'd6,4'd2};
-           6'd63: decimalNum = {4'd6,4'd3};
-
-
-               
+           6'd63: decimalNum = {4'd6,4'd3};       
     endcase
-
 endmodule
