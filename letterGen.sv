@@ -41,3 +41,26 @@ endmodule
 //which is determined by figuring out your current
 //position with respect to the top of the letter box, 
 //which is y - top.
+
+// here is the parameterized version of the above code:
+/*
+module letterGen #(parameter DEPTH = 780,  WIDTH = 15,  SPACING = 20, SCREENHEIGHT, SCREENWIDTH,
+                             SELECTWIDTH = $clog2(DEPTH/SPACING), XBITS = $clog2(SCREENWIDTH), YBITS = $clog2(SCREENHEIGHT))
+                  (input  logic [XBITS-1:0]       x,            // current x cordinate
+                   input  logic [XBITS-1:0]       left, right,  // x-boundaries of the bitmap
+                   input  logic [YBITS-1:0]       y,            // current y cordinate
+                   input  logic [YBITS-1:0]       top, bottom,  // y-boundaries of the bitmap
+                   input  logic [SELECTWIDTH-1:0] letterSelect, // selects which bitmap from the file to load
+                   output logic                   pixel);       // whether the pixel should be on (change to tri if the last comment is used)
+
+  logic             inrect;              // signal to see if within bitmap
+  logic [WIDTH-1:0] charrom [DEPTH-1:0]; // entire character rom
+  logic [WIDTH-1:0] line;                // individual line of character rom
+  
+  initial $readmemb("characterROM.txt", charrom); //reads in bitmaps
+  assign inrect = (x >= left & x < right & y >= top & y < bottom); //checks if within bounds
+  assign line = charrom[letterSelect*SPACING + (y-top)]; // finds the line we are on currently
+  assign pixel = inrect & line[(WIDTH - 1) - (x - left)]; // finds the pixel we are on within the line we are on
+//assign pixel = inrect ? line[(WIDTH - 1) - (x - left)] : 1'bz; // should work assuming another module takes care of outputting to this pixel
+endmodule
+*/
