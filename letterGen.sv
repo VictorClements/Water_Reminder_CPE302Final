@@ -44,7 +44,7 @@ endmodule
 
 // here is the parameterized version of the above code:
 /*
-module letterGen #(parameter DEPTH = 780,  WIDTH = 15,  SPACING = 20, SCREENHEIGHT, SCREENWIDTH,
+module letterGen #(parameter DEPTH = 780,  WIDTH = 15,  SPACING = 20, BITMAP_FILE = "characterROM.txt", SCREENHEIGHT, SCREENWIDTH,
                              SELECTWIDTH = $clog2(DEPTH/SPACING), XBITS = $clog2(SCREENWIDTH), YBITS = $clog2(SCREENHEIGHT))
                   (input  logic [XBITS-1:0]       x,            // current x cordinate
                    input  logic [XBITS-1:0]       left, right,  // x-boundaries of the bitmap
@@ -57,7 +57,7 @@ module letterGen #(parameter DEPTH = 780,  WIDTH = 15,  SPACING = 20, SCREENHEIG
   logic [WIDTH-1:0] charrom [DEPTH-1:0]; // entire character rom
   logic [WIDTH-1:0] line;                // individual line of character rom
   
-  initial $readmemb("characterROM.txt", charrom); //reads in bitmaps
+  initial $readmemb(BITMAP_FILE, charrom); //reads in bitmaps
   assign inrect = (x >= left & x < right & y >= top & y < bottom); //checks if within bounds
   assign line = charrom[letterSelect*SPACING + (y-top)]; // finds the line we are on currently
   assign pixel = inrect & line[(WIDTH - 1) - (x - left)]; // finds the pixel we are on within the line we are on
